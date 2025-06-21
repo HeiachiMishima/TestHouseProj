@@ -1,0 +1,39 @@
+name: Deploy & Migrate Laravel App
+
+on:
+  push:
+    branches:
+      - main # or 'master', depending on your branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2" # Match your Laravel version
+          extensions: mbstring, bcmath, mysql
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copy .env (if needed)
+        run: cp .env.example .env
+
+      - name: Generate Laravel app key
+        run: php artisan key:generate
+
+      - name: Run Laravel migrations
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql.railway.internal
+          DB_PORT: 3306
+          DB_DATABASE: railway
+          DB_USERNAME: root
+          DB_PASSWORD: testpassword
+        run: php artisan migrate --force
