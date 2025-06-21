@@ -1,0 +1,26 @@
+  <div class="container">
+      <div class="row">
+        <!-- First Card -->
+        @foreach ($scard as $scard)
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="icon">
+            <img src="{{ asset('image/'.$scard->image)}}" class="img-icon">
+            <div class="Modern ms-4">
+              <h4 class="houses">{{ $scard->heading }}</h4>
+              <p class="Morbi">{{ $scard->paragraph }}</p>
+              <button class="read" data-modal="modal1">{{ $scard->button }}</button>
+              <!-- Modal Structure -->
+              <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <h2>Modal Title </h2>
+                  <img src="Image/ab.jpg" alt="Team" style="width: 100%; height: auto;" />
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </div>
+    </div>
